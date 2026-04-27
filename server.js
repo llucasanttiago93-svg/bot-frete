@@ -5,11 +5,16 @@ const app = express();
 
 app.use(express.json());
 
+// 👇 NOVO (ADICIONA ISSO)
+app.get("/cep", (req, res) => {
+  res.json({ status: "ok" });
+});
+
+// 👇 JÁ EXISTENTE (NÃO MUDA)
 app.post("/cep", async (req, res) => {
   console.log("BODY RECEBIDO:", req.body);
-  console.log("HEADERS:", req.headers);
 
-  const cep = req.body?.cep || req.body?.root?.cep;
+  const cep = req.body.cep || req.body.root?.cep;
 
   console.log("CEP EXTRAÍDO:", cep);
 
