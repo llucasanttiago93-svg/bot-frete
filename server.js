@@ -6,7 +6,7 @@ const app = express();
 app.use(express.json());
 
 app.post("/cep", async (req, res) => {
-  const cep = req.body.cep;
+  const cep = req.body.cep || req.body.root?.cep;
 
   if (!cep) {
     return res.json({ erro: "CEP não enviado" });
