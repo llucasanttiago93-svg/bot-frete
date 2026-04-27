@@ -6,7 +6,12 @@ const app = express();
 app.use(express.json());
 
 app.post("/cep", async (req, res) => {
-  const cep = req.body.cep || req.body.root?.cep;
+  console.log("BODY RECEBIDO:", req.body);
+  console.log("HEADERS:", req.headers);
+
+  const cep = req.body?.cep || req.body?.root?.cep;
+
+  console.log("CEP EXTRAÍDO:", cep);
 
   if (!cep) {
     return res.json({ erro: "CEP não enviado" });
@@ -26,6 +31,7 @@ app.post("/cep", async (req, res) => {
     }
 
   } catch (error) {
+    console.log("ERRO API:", error.message);
     return res.status(500).json({ erro: "Erro ao consultar CEP" });
   }
 });
