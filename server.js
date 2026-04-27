@@ -5,26 +5,26 @@ const app = express();
 
 app.use(express.json());
 
-// 👇 NOVO (ADICIONA ISSO)
-app.get("/cep", (req, res) => {
-  res.json({ status: "ok" });
+// 🔹 Rota básica pra teste (saúde do servidor)
+app.get("/", (req, res) => {
+  res.send("API rodando 🚀");
 });
 
-// 👇 JÁ EXISTENTE (NÃO MUDA)
-app.post("/cep", async (req, res) => {
-  console.log("BODY RECEBIDO:", req.body);
+// 🔹 Rota principal (USAR NO BOTCONVERSA)
+app.get("/cep-check", async (req, res) => {
+  const cep = req.query.cep;
 
-  const cep = req.body.cep || req.body.root?.cep;
-
-  console.log("CEP EXTRAÍDO:", cep);
+  console.log("CEP RECEBIDO:", cep);
 
   if (!cep) {
     return res.json({ erro: "CEP não enviado" });
   }
 
   try {
+    // (opcional) valida CEP com ViaCEP
     await axios.get(`https://viacep.com.br/ws/${cep}/json/`);
 
+    // 🔥 REGRA DE FRETE
     if (
       cep.startsWith("0484") ||
       cep.startsWith("0485") ||
@@ -36,7 +36,7 @@ app.post("/cep", async (req, res) => {
     }
 
   } catch (error) {
-    console.log("ERRO API:", error.message);
+    console.log("ERRO:", error.message);
     return res.status(500).json({ erro: "Erro ao consultar CEP" });
   }
 });
@@ -44,5 +44,5 @@ app.post("/cep", async (req, res) => {
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
-  console.log("Servidor rodando");
+  console.log("Servidor rodando 🚀");
 });
