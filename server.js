@@ -3,8 +3,10 @@ const axios = require("axios");
 
 const app = express();
 
-app.get("/cep", async (req, res) => {
-  const cep = req.query.cep;
+app.use(express.json());
+
+app.post("/cep", async (req, res) => {
+  const cep = req.body.cep;
 
   if (!cep) {
     return res.json({ erro: "CEP não enviado" });
