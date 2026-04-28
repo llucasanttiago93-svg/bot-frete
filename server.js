@@ -5,43 +5,43 @@ const app = express();
 
 app.use(express.json());
  
-// 👇 NOVO (ADICIONA ISSO) 
+// rota teste
 app.get("/cep", (req, res) => { 
- res.json({ status: "ok" }); 
+  res.json({ status: "ok" }); 
 }); 
 
-// 👇 JÁ EXISTENTE (NÃO MUDA) 
+// rota principal
 app.post("/cep", async (req, res) => { 
- console.log("BODY RECEBIDO:", req.body); 
+  console.log("BODY RECEBIDO:", req.body); 
 
- const cep = req.body.cep || req.body.root?.cep; 
+  const cep = req.body.cep || req.body.root?.cep; 
+  console.log("CEP EXTRAÍDO:", cep);
  
- console.log("CEP EXTRAÍDO:", cep);
- 
-if (!cep) { 
- return res.json({ erro: "CEP não enviado" }); 
- } 
+  if (!cep) { 
+    return res.json({ erro: "CEP não enviado" }); 
+  } 
 
-try { 
- await axios.get(`https://viacep.com.br/ws/${cep}/json/`);
+  try { 
+    await axios.get(`https://viacep.com.br/ws/${cep}/json/`); 
 
- if ( 
-  cep.startsWith("0484") || 
-  cep.startsWith("0485") || 
-  cep.startsWith("0486") 
- ){ 
-  return res.json({ resultado: "frete_gratis" }); 
- } else { 
-  return res.json({ resultado: "frete_normal" }); 
- } 
+    if ( 
+      cep.startsWith("0484") || 
+      cep.startsWith("0485") || 
+      cep.startsWith("0486") 
+    ){ 
+      return res.json({ resultado: "frete_gratis" }); 
+    } else { 
+      return res.json({ resultado: "frete_normal" }); 
+    } 
 
-} catch (error) { 
-  console.log("ERRO API:", error.message); 
-  return res.status(500).json({ erro: "Erro ao consultar CEP" }); 
- } 
+  } catch (error) { 
+    console.log("ERRO API:", error.message); 
+    return res.status(500).json({ erro: "Erro ao consultar CEP" }); 
+  } 
 }); 
+
 const PORT = process.env.PORT || 3000; 
 
 app.listen(PORT, () => { 
- console.log("Servidor rodando"); 
+  console.log("Servidor rodando"); 
 });
