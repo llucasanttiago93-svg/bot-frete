@@ -1,47 +1,48 @@
-const express = require("express"); 
-const axios = require("axios"); 
+const express = require("express");
+const axios = require("axios");
 
-const app = express(); 
+const app = express();
 
 app.use(express.json());
- 
-// rota teste
-app.get("/cep", (req, res) => { 
-  res.json({ status: "ok" }); 
-}); 
 
-// rota principal
-app.post("/cep", async (req, res) => { 
-  console.log("BODY RECEBIDO:", req.body); 
+// 🔹 Rota básica pra teste (saúde do servidor)
+app.get("/", (req, res) => {
+  res.send("API rodando 🚀");
+});
 
-  const cep = req.body.cep || req.body.root?.cep; 
-  console.log("CEP EXTRAÍDO:", cep);
- 
-  if (!cep) { 
-    return res.json({ erro: "CEP não enviado" }); 
-  } 
+// 🔹 Rota principal (USAR NO BOTCONVERSA)
+app.get("/cep-check", async (req, res) => {
+  const cep = req.query.cep;
 
-  try { 
-    await axios.get(`https://viacep.com.br/ws/${cep}/json/`); 
+  console.log("CEP RECEBIDO:", cep);
 
-    if ( 
-      cep.startsWith("0484") || 
-      cep.startsWith("0485") || 
-      cep.startsWith("0486") 
-    ){ 
-      return res.json({ resultado: "frete_gratis" }); 
-    } else { 
-      return res.json({ resultado: "frete_normal" }); 
-    } 
+  if (!cep) {
+    return res.json({ erro: "CEP não enviado" });
+  }
 
-  } catch (error) { 
-    console.log("ERRO API:", error.message); 
-    return res.status(500).json({ erro: "Erro ao consultar CEP" }); 
-  } 
-}); 
+  try {
+    // (opcional) valida CEP com ViaCEP
+    await axios.get(`https://viacep.com.br/ws/${cep}/json/`);
 
-const PORT = process.env.PORT || 3000; 
+    // 🔥 REGRA DE FRETE
+    if (
+      cep.startsWith("0484") ||
+      cep.startsWith("0485") ||
+      cep.startsWith("0486")
+    ) {
+      return res.json({ resultado: "frete_gratis" });
+    } else {
+      return res.json({ resultado: "frete_normal" });
+    }
 
-app.listen(PORT, () => { 
-  console.log("Servidor rodando"); 
+  } catch (error) {
+    console.log("ERRO:", error.message);
+    return res.status(500).json({ erro: "Erro ao consultar CEP" });
+  }
+});
+
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+  console.log("Servidor rodando 🚀");
 });
