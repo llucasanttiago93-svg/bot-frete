@@ -23,7 +23,7 @@ if (!cep) {
  } 
 
 try { 
- await axios.get(https://viacep.com.br/ws/${cep}/json/); 
+ await axios.get(`https://viacep.com.br/ws/${cep}/json/`);
 
  if ( 
   cep.startsWith("0484") || 
