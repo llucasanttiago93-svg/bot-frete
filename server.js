@@ -26,9 +26,30 @@ app.get("/cep-check", async (req, res) => {
 
     // 🔥 REGRA DE FRETE
     if (
+      // 🔵 GRAJAÚ
+      cep.startsWith("0483") ||
       cep.startsWith("0484") ||
       cep.startsWith("0485") ||
-      cep.startsWith("0486")
+      cep.startsWith("0486") ||
+
+      // 🟢 CIDADE DUTRA
+      cep.startsWith("0477") ||
+      cep.startsWith("0478") ||
+      cep.startsWith("0479") ||
+
+      // 🟡 SOCORRO (PARCIAL)
+      cep.startsWith("04760") ||
+      cep.startsWith("04761") ||
+      cep.startsWith("04762") ||
+      cep.startsWith("04763") ||
+      cep.startsWith("04764") ||
+
+      // 🟠 PARELHEIROS (PARCIAL)
+      cep.startsWith("04880") ||
+      cep.startsWith("04881") ||
+      cep.startsWith("04882") ||
+      cep.startsWith("04883") ||
+      cep.startsWith("04884")
     ) {
       return res.json({ resultado: "frete_gratis" });
     } else {
