@@ -22,7 +22,8 @@ app.get("/cep-check", async (req, res) => {
 
   try {
     // (opcional) valida CEP com ViaCEP
-    await axios.get(`https://viacep.com.br/ws/${cep}/json/`);
+    const response = await axios.get(`https://viacep.com.br/ws/${cep}/json/`);
+    const data = response.data;
 
     // 🔥 REGRA DE FRETE
     if (
@@ -51,9 +52,17 @@ app.get("/cep-check", async (req, res) => {
       cep.startsWith("04883") ||
       cep.startsWith("04884")
     ) {
-      return res.json({ resultado: "frete_gratis" });
+      return res.json({
+      resultado: "frete_gratis",
+      rua: data.logradouro,
+      bairro: data.bairro
+});
     } else {
-      return res.json({ resultado: "frete_normal" });
+      return res.json({
+      resultado: "frete_normal",
+      rua: data.logradouro,
+      bairro: data.bairro
+});
     }
 
   } catch (error) {
