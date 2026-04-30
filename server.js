@@ -1,9 +1,11 @@
 const express = require("express");
 const axios = require("axios");
+const carrinhoRoutes = require("./carrinho");
 
 const app = express();
 
 app.use(express.json());
+app.use("/", carrinhoRoutes);
 
 // 🔹 Rota básica pra teste (saúde do servidor)
 app.get("/", (req, res) => {
