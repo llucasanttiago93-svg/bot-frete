@@ -24,17 +24,18 @@ router.post("/carrinho/add", (req, res) => {
   }
 
   carrinhos[cliente].push({
-    produto,
-    qtd: Number(qtd),
-    preco: Number(preco)
-  });
+  id: Date.now(), // 👈 ID único
+  produto,
+  qtd: Number(qtd),
+  preco: Number(preco)
+});
 
   const total = carrinhos[cliente].reduce((acc, item) => {
     return acc + item.qtd * item.preco;
   }, 0);
 
   const carrinhoTexto = carrinhos[cliente]
-    .map(item => `• ${item.produto} x${item.qtd}`)
+    .map(item => `• ${item.produto} x${item.qtd} (id:${item.id})`)
     .join("\n");
 
   return res.json({
@@ -66,7 +67,7 @@ router.post("/carrinho/remove", (req, res) => {
 
   // formata texto
   const carrinhoTexto = carrinhos[cliente]
-    .map(item => `• ${item.produto} x${item.qtd}`)
+    .map(item => `• ${item.produto} x${item.qtd} (id:${item.id})`)
     .join("\n");
 
   return res.json({
