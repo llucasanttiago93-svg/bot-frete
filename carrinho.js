@@ -44,28 +44,18 @@ router.post("/carrinho/add", (req, res) => {
   });
 });
 
-router.post("/carrinho/remove", (req, res) => {
-  const { cliente, id } = req.body;
+router.post("/carrinho/clear", (req, res) => {
+  const { cliente } = req.body;
 
-  if (!cliente || !id) {
-    return res.json({ erro: "Dados incompletos" });
+  if (!cliente) {
+    return res.json({ erro: "Cliente não enviado" });
   }
 
-  carrinhos[cliente] = carrinhos[cliente].filter(
-    item => item.id != id
-  );
-
-  const total = carrinhos[cliente].reduce((acc, item) => {
-    return acc + item.qtd * item.preco;
-  }, 0);
-
-  const carrinhoTexto = carrinhos[cliente]
-    .map(item => `• ${item.produto} x${item.qtd}`)
-    .join("\n");
+  carrinhos[cliente] = [];
 
   return res.json({
-    carrinho: carrinhoTexto,
-    total
+    carrinho: "",
+    total: 0
   });
 });
 
