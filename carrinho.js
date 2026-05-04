@@ -29,12 +29,20 @@ cliente = String(cliente).trim();
     carrinhos[cliente] = [];
   }
 
+  const itemExistente = carrinhos[cliente].find(
+  item => item.produto === produto
+);
+
+if (itemExistente) {
+  itemExistente.qtd += Number(qtd);
+} else {
   carrinhos[cliente].push({
-  id: Date.now(), // 👈 ID único
-  produto,
-  qtd: Number(qtd),
-  preco: Number(preco)
-});
+    id: Date.now(),
+    produto,
+    qtd: Number(qtd),
+    preco: Number(preco)
+  });
+}
 
   const total = carrinhos[cliente].reduce((acc, item) => {
     return acc + item.qtd * item.preco;
