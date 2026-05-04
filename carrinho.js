@@ -15,7 +15,11 @@ router.get("/carrinho-test", (req, res) => {
 router.post("/carrinho/add", (req, res) => {
   let { cliente, produto, qtd, preco } = req.body;
 
-  cliente = String(cliente).replace(/\D/g, "");
+  if (!cliente) {
+  return res.json({ erro: "Cliente não enviado" });
+}
+
+cliente = String(cliente).trim();
 
   if (!cliente || !produto || !qtd || !preco) {
     return res.json({ erro: "Dados incompletos" });
