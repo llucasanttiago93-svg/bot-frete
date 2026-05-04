@@ -35,7 +35,7 @@ router.post("/carrinho/add", (req, res) => {
   }, 0);
 
   const carrinhoTexto = carrinhos[cliente]
-    .map(item => `• ${item.produto} x${item.qtd} (id:${item.id})`)
+    .map(item => `• ${item.produto} x${item.qtd}`)
     .join("\n");
 
   return res.json({
