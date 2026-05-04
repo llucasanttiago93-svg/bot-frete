@@ -13,7 +13,9 @@ router.get("/carrinho-test", (req, res) => {
 
 // 🔥 NOVA ROTA (COLA AQUI)
 router.post("/carrinho/add", (req, res) => {
-  const { cliente, produto, qtd, preco } = req.body;
+  let { cliente, produto, qtd, preco } = req.body;
+
+  cliente = String(cliente).replace(/\D/g, "");
 
   if (!cliente || !produto || !qtd || !preco) {
     return res.json({ erro: "Dados incompletos" });
