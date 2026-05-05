@@ -86,17 +86,19 @@ app.post("/pagamento", async (req, res) => {
     const preference = new Preference(client);
 
     const response = await preference.create({
-      body: {
-        items: [
-          {
-            title: "Pedido via WhatsApp",
-            quantity: 1,
-            currency_id: "BRL",
-            unit_price: Number(total)
-          }
-        ]
+  body: {
+    items: [
+      {
+        title: "Pedido via WhatsApp",
+        quantity: 1,
+        currency_id: "BRL",
+        unit_price: Number(total)
       }
-    });
+    ],
+
+    notification_url: "https://bot-frete.onrender.com/webhook-mp"
+  }
+});
 
     res.json({
       link: response.init_point
