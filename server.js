@@ -79,34 +79,22 @@ app.get("/cep-check", async (req, res) => {
   }
 });
 
-// 🔹 ROTA PAGAMENTO
-app.post("/pagamento", async (req, res) => {
-  try {
-    const { total } = req.body;
+app.post("/webhook-mp", async (req, res) => {
+  const data = req.body;
 
-    const preference = new Preference(client);
+  console.log("WEBHOOK:", data);
 
-    const response = await preference.create({
-      body: {
-        items: [
-          {
-            title: "Pedido via WhatsApp",
-            quantity: 1,
-            currency_id: "BRL",
-            unit_price: Number(total)
-          }
-        ]
-      }
-    });
+  if (data.type === "payment") {
+    console.log("💰 Pagamento detectado");
 
-    res.json({
-      link: response.init_point
-    });
+    const paymentId = data.data.id;
 
-  } catch (error) {
-    console.log("ERRO PAGAMENTO:", error);
-    res.status(500).json({ erro: "Erro ao criar pagamento" });
+    console.log("ID DO PAGAMENTO:", paymentId);
+
+    // 🔥 aqui depois vamos consultar detalhes do pagamento
   }
+
+  res.sendStatus(200);
 });
 
 app.post("/webhook-mp", (req, res) => {
