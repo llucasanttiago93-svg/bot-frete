@@ -79,6 +79,35 @@ app.get("/cep-check", async (req, res) => {
   }
 });
 
+app.post("/pagamento", async (req, res) => {
+  try {
+    const { total } = req.body;
+
+    const preference = new Preference(client);
+
+    const response = await preference.create({
+      body: {
+        items: [
+          {
+            title: "Pedido via WhatsApp",
+            quantity: 1,
+            currency_id: "BRL",
+            unit_price: Number(total)
+          }
+        ]
+      }
+    });
+
+    res.json({
+      link: response.init_point
+    });
+
+  } catch (error) {
+    console.log("ERRO PAGAMENTO:", error);
+    res.status(500).json({ erro: "Erro ao criar pagamento" });
+  }
+});
+
 app.post("/webhook-mp", async (req, res) => {
   const data = req.body;
 
@@ -98,14 +127,8 @@ app.post("/webhook-mp", async (req, res) => {
 
       console.log("STATUS:", paymentInfo.status);
 
-      // 🎯 AQUI ESTÁ O OURO
       if (paymentInfo.status === "approved") {
         console.log("✅ PAGAMENTO APROVADO!");
-
-        // 👉 aqui depois vamos:
-        // - avisar cliente
-        // - avisar você
-        // - marcar pedido como pago
       }
 
     } catch (error) {
@@ -116,10 +139,6 @@ app.post("/webhook-mp", async (req, res) => {
   res.sendStatus(200);
 });
 
-app.post("/webhook-mp", (req, res) => {
-  console.log("WEBHOOK RECEBIDO:", JSON.stringify(req.body, null, 2));
-  res.sendStatus(200);
-});
 
 const PORT = process.env.PORT || 3000;
 
