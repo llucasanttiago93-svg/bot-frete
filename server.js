@@ -1,4 +1,4 @@
-const { MercadoPagoConfig, Preference } = require("mercadopago");
+const { MercadoPagoConfig, Preference, Payment } = require("mercadopago");
 
 const client = new MercadoPagoConfig({
   accessToken: "TEST-7618236830954321-050512-23277d8dc12090213d5bb0157f3714e3-2387135043"
@@ -85,13 +85,32 @@ app.post("/webhook-mp", async (req, res) => {
   console.log("WEBHOOK:", data);
 
   if (data.type === "payment") {
-    console.log("💰 Pagamento detectado");
-
     const paymentId = data.data.id;
 
-    console.log("ID DO PAGAMENTO:", paymentId);
+    console.log("💰 ID DO PAGAMENTO:", paymentId);
 
-    // 🔥 aqui depois vamos consultar detalhes do pagamento
+    try {
+      const payment = new Payment(client);
+
+      const paymentInfo = await payment.get({
+        id: paymentId
+      });
+
+      console.log("STATUS:", paymentInfo.status);
+
+      // 🎯 AQUI ESTÁ O OURO
+      if (paymentInfo.status === "approved") {
+        console.log("✅ PAGAMENTO APROVADO!");
+
+        // 👉 aqui depois vamos:
+        // - avisar cliente
+        // - avisar você
+        // - marcar pedido como pago
+      }
+
+    } catch (error) {
+      console.log("ERRO AO CONSULTAR PAGAMENTO:", error);
+    }
   }
 
   res.sendStatus(200);
