@@ -109,6 +109,11 @@ app.post("/pagamento", async (req, res) => {
   }
 });
 
+app.post("/webhook-mp", (req, res) => {
+  console.log("WEBHOOK RECEBIDO:", JSON.stringify(req.body, null, 2));
+  res.sendStatus(200);
+});
+
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
