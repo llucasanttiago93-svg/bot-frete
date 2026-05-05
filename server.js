@@ -1,3 +1,9 @@
+const mercadopago = require("mercadopago");
+
+mercadopago.configure({
+  access_token: "APP_USR-3412499482890269-050510-55c40a036ea0d099a1d79d3e06d6df5b-3380859270"
+});
+
 const express = require("express");
 const axios = require("axios");
 const carrinhoRoutes = require("./carrinho");
@@ -70,6 +76,34 @@ app.get("/cep-check", async (req, res) => {
   } catch (error) {
     console.log("ERRO:", error.message);
     return res.status(500).json({ erro: "Erro ao consultar CEP" });
+  }
+});
+
+// 🔹 ROTA PAGAMENTO
+app.post("/pagamento", async (req, res) => {
+  try {
+    const { cliente, total, carrinho } = req.body;
+
+    const preference = {
+      items: [
+        {
+          title: "Pedido via WhatsApp",
+          quantity: 1,
+          currency_id: "BRL",
+          unit_price: Number(total)
+        }
+      ]
+    };
+
+    const response = await mercadopago.preferences.create(preference);
+
+    res.json({
+      link: response.body.init_point
+    });
+
+  } catch (error) {
+    console.log("ERRO PAGAMENTO:", error.message);
+    res.status(500).json({ erro: "Erro ao criar pagamento" });
   }
 });
 
