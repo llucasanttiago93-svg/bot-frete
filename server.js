@@ -141,7 +141,6 @@ app.post("/webhook-mp", async (req, res) => {
 
         console.log("✅ PAGAMENTO APROVADO!");
 
-	const telefoneLimpo = cliente.replace("+", "");
 
 const subscribersResponse = await axios.get(
   "https://backend.botconversa.com.br/api/v1/webhook/subscribers/",
