@@ -185,7 +185,7 @@ Pagamento aprovado no Mercado Pago.
 `
 });
 
-console.log("📧 EMAIL ENVIADO!");
+console.log("📧 EMAIL ENVIADOO!");
 
       }
 
