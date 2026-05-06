@@ -144,8 +144,22 @@ app.post("/webhook-mp", async (req, res) => {
 
         console.log("✅ PAGAMENTO APROVADO!");
 
+	console.log("🆔 SUBSCRIBER ID:", subscriberId);
+	
+await axios.post(
+  `https://backend.botconversa.com.br/api/v1/webhook/subscriber/${subscriberId}/send_message/`,
+  {
+    type: "text",
+    value: "✅ Pagamento aprovado! Seu pedido está sendo preparado 🚀"
+  },
+  {
+    headers: {
+      "API-KEY": "5b36e380-f1b6-4dff-b1bc-120870250612"
+    }
+  }
+);
 
-console.log("🆔 SUBSCRIBER ID:", subscriberId);
+console.log("📨 MENSAGEM ENVIADA!");
 
       }
 
