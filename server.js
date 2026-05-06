@@ -145,22 +145,7 @@ app.post("/webhook-mp", async (req, res) => {
         console.log("✅ PAGAMENTO APROVADO!");
 
 
-const subscribersResponse = await axios.get(
-  "https://backend.botconversa.com.br/api/v1/webhook/subscribers/",
-  {
-    headers: {
-      "API-KEY": "5b36e380-f1b6-4dff-b1bc-120870250612"
-    }
-  }
-);
-
-const telefoneLimpo = cliente.replace("+", "");
-
-const subscriber = subscribersResponse.data.results.find(
-  item => item.phone.replace("+", "") === telefoneLimpo
-);
-
-console.log("SUBSCRIBER ENCONTRADO:", subscriber);
+console.log("🆔 SUBSCRIBER ID:", subscriberId);
 
       }
 
