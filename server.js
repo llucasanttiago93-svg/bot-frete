@@ -141,7 +141,7 @@ app.post("/webhook-mp", async (req, res) => {
 
         console.log("✅ PAGAMENTO APROVADO!");
 
-	await axios.post("https://api.botconversa.com.br/api/v1/webhook/", {
+	await axios.post("https://backend.botconversa.com.br/api/v1/webhook/", {
   phone: cliente,
   message: "✅ Pagamento aprovado! Seu pedido está sendo preparado 🚀"
 }, {
