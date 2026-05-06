@@ -187,12 +187,13 @@ Pagamento aprovado no Mercado Pago.
 
 console.log("📧 EMAIL ENVIADOOOO!");
 
-      }
+            }
 
     } catch (error) {
-  console.log("ERRO COMPLETO:");
-  console.log(error);
-}
+      console.log("ERRO COMPLETO:");
+      console.log(error);
+    }
+  }
 
   res.sendStatus(200);
 });
