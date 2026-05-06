@@ -170,6 +170,23 @@ await axios.post(
 
 console.log("📨 MENSAGEM ENVIADA!");
 
+await transporter.sendMail({
+  from: "llucasanttiago93@gmail.com",
+  to: "llucasanttiago93@gmail.com",
+  subject: "🚀 Novo pedido aprovado",
+  text: `
+Novo pedido aprovado!
+
+Telefone: ${cliente}
+
+Subscriber ID: ${subscriberId}
+
+Pagamento aprovado no Mercado Pago.
+`
+});
+
+console.log("📧 EMAIL ENVIADO!");
+
       }
 
     } catch (error) {
