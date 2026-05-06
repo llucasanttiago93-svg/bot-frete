@@ -147,7 +147,7 @@ const subscribersResponse = await axios.get(
   "https://backend.botconversa.com.br/api/v1/webhook/subscribers/",
   {
     headers: {
-      Authorization: "Bearer 5b36e380-f1b6-4dff-b1bc-120870250612"
+      "API-KEY": "5b36e380-f1b6-4dff-b1bc-120870250612"
     }
   }
 );
