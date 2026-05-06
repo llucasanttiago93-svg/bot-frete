@@ -152,7 +152,11 @@ const subscribersResponse = await axios.get(
   }
 );
 
-console.log("SUBSCRIBERS:", subscribersResponse.data);
+const subscriber = subscribersResponse.data.results.find(
+  item => item.phone === cliente
+);
+
+console.log("SUBSCRIBER ENCONTRADO:", subscriber);
 
       }
 
