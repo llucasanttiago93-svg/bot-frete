@@ -1,3 +1,4 @@
+const nodemailer = require("nodemailer");
 const { MercadoPagoConfig, Preference, Payment } = require("mercadopago");
 
 const client = new MercadoPagoConfig({
@@ -9,6 +10,14 @@ const axios = require("axios");
 const carrinhoRoutes = require("./carrinho");
 
 const app = express();
+
+const transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    user: "llucasanttiago93@gmail.com",
+    pass: "eirubcsbslimhfeb"
+  }
+});
 
 app.use(express.json());
 app.use("/", carrinhoRoutes);
