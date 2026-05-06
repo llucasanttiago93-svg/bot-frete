@@ -81,7 +81,7 @@ app.get("/cep-check", async (req, res) => {
 
 app.post("/pagamento", async (req, res) => {
   try {
-    const { total } = req.body;
+    const { total, cliente } = req.body;
 
     const preference = new Preference(client);
 
@@ -95,6 +95,10 @@ app.post("/pagamento", async (req, res) => {
         unit_price: Number(total)
       }
     ],
+
+    metadata: {
+      cliente: cliente
+    },
 
     notification_url: "https://bot-frete.onrender.com/webhook-mp"
   }
@@ -130,7 +134,22 @@ app.post("/webhook-mp", async (req, res) => {
       console.log("STATUS:", paymentInfo.status);
 
       if (paymentInfo.status === "approved") {
+        
+        const cliente = paymentInfo.metadata.cliente;
+
+        console.log("📱 TELEFONE DO CLIENTE:", cliente);
+
         console.log("✅ PAGAMENTO APROVADO!");
+
+	await axios.post("https://api.botconversa.com.br/api/v1/webhook/", {
+  phone: cliente,
+  message: "✅ Pagamento aprovado! Seu pedido está sendo preparado 🚀"
+}, {
+  headers: {
+    Authorization: "Bearer 5b36e380-f1b6-4dff-b1bc-120870250612"
+  }
+});
+
       }
 
     } catch (error) {
