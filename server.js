@@ -141,14 +141,19 @@ app.post("/webhook-mp", async (req, res) => {
 
         console.log("✅ PAGAMENTO APROVADO!");
 
-	await axios.post("https://backend.botconversa.com.br/api/v1/webhook/", {
-  phone: cliente,
-  message: "✅ Pagamento aprovado! Seu pedido está sendo preparado 🚀"
-}, {
-  headers: {
-    Authorization: "Bearer 5b36e380-f1b6-4dff-b1bc-120870250612"
+	await axios.post(
+  "https://backend.botconversa.com.br/api/v1/messages/send/",
+  {
+    phone: cliente,
+    type: "text",
+    value: "✅ Pagamento aprovado! Seu pedido está sendo preparado 🚀"
+  },
+  {
+    headers: {
+      Authorization: "Bearer 5b36e380-f1b6-4dff-b1bc-120870250612"
+    }
   }
-});
+);
 
       }
 
