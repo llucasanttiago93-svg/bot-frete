@@ -190,9 +190,9 @@ console.log("📧 EMAIL ENVIADOOOO!");
       }
 
     } catch (error) {
-      console.log("ERRO AO CONSULTAR PAGAMENTO:", error);
-    }
-  }
+  console.log("ERRO COMPLETO:");
+  console.log(error);
+}
 
   res.sendStatus(200);
 });
