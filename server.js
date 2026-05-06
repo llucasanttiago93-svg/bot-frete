@@ -1,7 +1,7 @@
 const { MercadoPagoConfig, Preference, Payment } = require("mercadopago");
 
 const client = new MercadoPagoConfig({
-  accessToken: "TEST-7618236830954321-050512-23277d8dc12090213d5bb0157f3714e3-2387135043"
+  accessToken: "APP_USR-5977139545122971-050609-9ddfba606968d2571d5ec617e5c71bfe-3380859270"
 });
 
 const express = require("express");
