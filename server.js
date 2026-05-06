@@ -81,7 +81,7 @@ app.get("/cep-check", async (req, res) => {
 
 app.post("/pagamento", async (req, res) => {
   try {
-    const { total, cliente } = req.body;
+    const { total, cliente, subscriber_id } = req.body;
 
     const preference = new Preference(client);
 
@@ -97,8 +97,9 @@ app.post("/pagamento", async (req, res) => {
     ],
 
     metadata: {
-      cliente: cliente
-    },
+  cliente: cliente,
+  subscriber_id: subscriber_id
+},
 
     notification_url: "https://bot-frete.onrender.com/webhook-mp"
   }
@@ -136,6 +137,8 @@ app.post("/webhook-mp", async (req, res) => {
       if (paymentInfo.status === "approved") {
         
         const cliente = paymentInfo.metadata.cliente;
+
+	const subscriberId = paymentInfo.metadata.subscriber_id;
 
         console.log("📱 TELEFONE DO CLIENTE:", cliente);
 
