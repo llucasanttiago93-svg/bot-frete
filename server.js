@@ -152,8 +152,10 @@ const subscribersResponse = await axios.get(
   }
 );
 
+const telefoneLimpo = cliente.replace("+", "");
+
 const subscriber = subscribersResponse.data.results.find(
-  item => item.phone === cliente
+  item => item.phone.replace("+", "") === telefoneLimpo
 );
 
 console.log("SUBSCRIBER ENCONTRADO:", subscriber);
