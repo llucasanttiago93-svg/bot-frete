@@ -16,8 +16,8 @@ const pagamentosProcessados = {};
 const transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
-    user: "llucasanttiago93@gmail.com",
-    pass: "eirubcsbslimhfeb"
+    user: "",
+    pass: ""
   }
 });
 
