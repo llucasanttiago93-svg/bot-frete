@@ -11,6 +11,8 @@ const carrinhoRoutes = require("./carrinho");
 
 const app = express();
 
+const pagamentosProcessados = {};
+
 const transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
@@ -144,6 +146,11 @@ app.post("/webhook-mp", async (req, res) => {
       console.log("STATUS:", paymentInfo.status);
 
       if (paymentInfo.status === "approved") {
+
+	if (pagamentosProcessados[paymentId]) {
+  	console.log("⚠️ PAGAMENTO JÁ PROCESSADO");
+  	return res.sendStatus(200);
+	}
         
         const cliente = paymentInfo.metadata.cliente;
 
@@ -170,7 +177,9 @@ await axios.post(
 
 console.log("📨 MENSAGEM ENVIADA!");
 
-await transporter.sendMail({
+pagamentosProcessados[paymentId] = true;
+
+/*await transporter.sendMail({
   from: "llucasanttiago93@gmail.com",
   to: "llucasanttiago93@gmail.com",
   subject: "🚀 Novo pedido aprovado",
@@ -184,9 +193,8 @@ Subscriber ID: ${subscriberId}
 Pagamento aprovado no Mercado Pago.
 `
 });
-
 console.log("📧 EMAIL ENVIADOOOO!");
-
+*/
             }
 
     } catch (error) {
