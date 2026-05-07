@@ -179,7 +179,8 @@ console.log("📨 MENSAGEM ENVIADA!");
 
 pagamentosProcessados[paymentId] = true;
 
-/*await transporter.sendMail({
+/*
+await transporter.sendMail({
   from: "llucasanttiago93@gmail.com",
   to: "llucasanttiago93@gmail.com",
   subject: "🚀 Novo pedido aprovado",
