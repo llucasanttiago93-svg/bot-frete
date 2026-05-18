@@ -39,7 +39,14 @@ app.get("/cep-check", async (req, res) => {
     return res.json({ erro: "CEP não enviado" });
   }
 
-  try {
+if (!/^\d{8}$/.test(cep)) {
+  return res.json({
+    resultado: "cep_invalido"
+  });
+}  
+
+
+try {
     // (opcional) valida CEP com ViaCEP
     const response = await axios.get(`https://viacep.com.br/ws/${cep}/json/`);
     const data = response.data;
