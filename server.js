@@ -44,7 +44,7 @@ app.get("/cep-check", async (req, res) => {
     const response = await axios.get(`https://viacep.com.br/ws/${cep}/json/`);
     const data = response.data;
 
-if (!data || data.erro) {
+if (data.erro) {
   return res.json({
     resultado: "cep_invalido"
   });
